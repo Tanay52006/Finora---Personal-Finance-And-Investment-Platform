@@ -91,7 +91,24 @@ function App(){
        if(live?.length)setStocks(live);
        if(port?.length)setHoldings(port.map((h:any)=>({symbol:h.stock.symbol,qty:h.quantity,avg:h.averageBuyPrice})));
        if(fx?.usdInr)setUsdInr(fx.usdInr);
-       if(ph?.points?.length)setPortfolioHistory(ph.points); else setPortfolioHistory(fallbackPortfolioHistory(holdings.length?holdings:[{symbol:"RELIANCE",qty:12,avg:1320},{symbol:"TCS",qty:8,avg:3250},{symbol:"INFY",qty:15,avg:1555}], live?.length?live:seedStocks, usdInr, portfolioRange));
+       if (ph?.points?.length) {
+  setPortfolioHistory(ph.points);
+} else {
+  setPortfolioHistory(
+    fallbackPortfolioHistory(
+      holdings.length
+        ? holdings
+        : [
+            { symbol: "RELIANCE", qty: 12, avg: 1320 },
+            { symbol: "TCS", qty: 8, avg: 3250 },
+            { symbol: "INFY", qty: 15, avg: 1555 }
+          ],
+      live?.length ? live : seedStocks,
+      portfolioRange,
+      usdInr
+    )
+  );
+}
      }catch{}
    };
    load();
